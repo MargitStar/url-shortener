@@ -13,4 +13,4 @@ class URLPost(MethodView):
         return jsonify(serializer.dump(result)), 200
 
 
-app.add_url_rule("/api/urls/", view_func=URLPost.as_view("users"))
+app.add_url_rule("/api/urls/", view_func=URLPost.as_view("urls"))
