@@ -3,6 +3,7 @@ from select import select
 
 from sqlalchemy import BigInteger, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+from url_shortener_db.base_62_convertion import Base62Convertion
 from url_shortener_db.utils import create_session
 
 Base = declarative_base()
@@ -21,8 +22,11 @@ class URL(Base):
 
     @classmethod
     def add(cls, long_url, short_url):
+        custom_id = cls._generate_id()
         url_entity = cls(
-            long_url=long_url, short_url=short_url, custom_id=cls._generate_id()
+            long_url=long_url,
+            short_url=cls._generate_short_url(custom_id),
+            custom_id=custom_id,
         )
         session.add(url_entity)
         session.commit()
@@ -32,3 +36,8 @@ class URL(Base):
     def _generate_id():
         date = datetime.strptime(str(datetime.now()), "%Y-%m-%d %H:%M:%S.%f")
         return int(date.timestamp() * 1000)
+
+    @staticmethod
+    def _generate_short_url(custom_id):
+        converter = Base62Convertion()
+        return converter.encode(custom_id)
