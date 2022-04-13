@@ -1,6 +1,4 @@
-import imp
 from logging.config import fileConfig
-from pyexpat import model
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
