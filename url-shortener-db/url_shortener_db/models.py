@@ -1,5 +1,4 @@
 from datetime import datetime
-from select import select
 
 from sqlalchemy import BigInteger, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -21,11 +20,16 @@ class URL(Base):
         return f"URL {self.id}"
 
     @classmethod
-    def add(cls, long_url, short_url):
+    def get_by_short_url(cls, short_url):
+        custom_id = cls._decode_short_url(short_url)
+        return session.query(cls).filter_by(custom_id=custom_id).first()
+
+    @classmethod
+    def add(cls, long_url):
         custom_id = cls._generate_id()
         url_entity = cls(
             long_url=long_url,
-            short_url=cls._generate_short_url(custom_id),
+            short_url=cls._encode_short_url(custom_id),
             custom_id=custom_id,
         )
         session.add(url_entity)
@@ -38,6 +42,11 @@ class URL(Base):
         return int(date.timestamp() * 1000)
 
     @staticmethod
-    def _generate_short_url(custom_id):
+    def _encode_short_url(custom_id):
         converter = Base62Convertion()
         return converter.encode(custom_id)
+
+    @staticmethod
+    def _decode_short_url(short_url):
+        converter = Base62Convertion()
+        return converter.decode(short_url)
