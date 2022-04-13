@@ -18,16 +18,8 @@ class Base62Convertion:
         strlen = len(string)
         num = 0
 
-        # idx = 0
         for index, char in enumerate(string):
             power = strlen - (index + 1)
             num += self.BASE62.index(char) * (self.BASE62_len**power)
-            # idx += 1
 
         return num
-
-
-cl = Base62Convertion()
-lol = cl.encode(1649885634096)
-print(lol)
-print(cl.decode(lol))
