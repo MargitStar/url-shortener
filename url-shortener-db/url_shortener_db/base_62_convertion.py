@@ -1,7 +1,6 @@
 class Base62Convertion:
-    def __init__(self):
-        self.BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        self.BASE62_len = len(self.BASE62)
+    BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    BASE62_len = len(BASE62)
 
     def encode(self, number):
         if number == 0:
@@ -11,8 +10,7 @@ class Base62Convertion:
         while number:
             number, rem = divmod(number, self.BASE62_len)
             arr.append(self.BASE62[rem])
-        arr.reverse()
-        return "".join(arr)
+        return "".join(reversed(arr))
 
     def decode(self, string):
         strlen = len(string)
