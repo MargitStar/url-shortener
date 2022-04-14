@@ -20,4 +20,6 @@ class URLShortView(MethodView):
 class URLRedirectView(MethodView):
     def get(self, short_url):
         long_url = URL.get_by_short_url(short_url=short_url)
-        return redirect(URLLongSchema().dump(long_url)["long_url"]), 301
+        if not long_url:
+            return {"detail": "Not Found"}, 404
+        return redirect(URLLongSchema().dump(long_url).get("long_url")), 301
