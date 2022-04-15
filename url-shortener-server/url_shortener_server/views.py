@@ -1,5 +1,3 @@
-from xmlrpc.client import ResponseError
-
 from flask import abort, jsonify, redirect, request
 from flask.views import MethodView
 from url_shortener_db.models import URL
