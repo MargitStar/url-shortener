@@ -18,8 +18,7 @@ depends_on = None
 def upgrade():
     op.create_table(
         "URL",
-        sa.Column("id", sa.Integer(), primary_key=True),
-        sa.Column("custom_id", sa.BigInteger(), nullable=False),
+        sa.Column("url_id", sa.BigInteger(), primary_key=True, autoincrement=False),
         sa.Column("short_url", sa.String(), nullable=False),
         sa.Column("long_url", sa.String(), nullable=False),
     )
