@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './App.css';
 import axios from 'axios';
 
 const baseAPIUrl = "http://127.0.0.1:5000/";
@@ -25,15 +26,19 @@ const App = () => {
   }
 
   return (
-    <div>
-      <header>
-        <h1>URL SHORTENER</h1>
-        <input type="text" name="input" placeholder="Type here" onChange={changeHandler} value={url} />
-        <button type="button" onClick={clickHandler}>Generate short URL</button>
-        <div>
-          { shortURL && (<a href={shortURLLink} target="_blank">{shortURLLink}</a>) }
-        </div>
-      </header>
+    <div className='main-container'>
+      <div className='form-container'>
+          <h1 className='title'>URL Shortener</h1>
+          <h3 className='description'>ShortURL allows to reduce long links from Instagram, Facebook, YouTube, Twitter,
+            Linked In and top sites on the Internet, just paste the long URL and click the Shorten URL button.</h3>
+          <div className='form'>
+            <div className='input-container'>
+              <input type="text" name="input" placeholder="Type here" onChange={changeHandler} value={url} className='input'/>
+              <button type="button" onClick={clickHandler} className='short-url-button'>Short URL</button>
+            </div>
+          </div>
+              { shortURL && (<div className='shorten-link-form'><h3>Short URL <a className='shorten-link' href={shortURLLink} target="_blank">{shortURLLink}</a></h3></div>) }
+          </div>
     </div>
   );
 }
