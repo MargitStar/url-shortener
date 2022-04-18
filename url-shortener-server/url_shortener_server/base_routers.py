@@ -13,11 +13,11 @@ class BaseRouter(ABC):
 
     @abstractmethod
     def __init__(self):
-        raise NotImplementedError("__init__ must be overridden")
+        """Add logic to this method"""
 
     @abstractmethod
     def add_to_app(self, app, **kwargs):
-        raise NotImplementedError("add_to_app must be overridden")
+        """Add logic to this method"""
 
 
 class Pluggable(BaseRouter):

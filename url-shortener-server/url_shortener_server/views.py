@@ -6,12 +6,12 @@ from url_shortener_server.serializers import URLLongSchema, URLShortSchema
 
 class URLLongView(MethodView):
     def post(self):
-        urls = URLLongSchema().load(request.json)
-        result = URL.add(**urls)
+        url = URLLongSchema().load(request.json)
+        result = URL.add(**url)
         return jsonify(URLShortSchema().dump(result)), 201
 
 
-class BaseURLView(MethodView):
+class BaseURLLogic:
     def get(self, short_url):
         long_url = URL.get_by_short_url(short_url=short_url)
         if not long_url:
@@ -22,13 +22,13 @@ class BaseURLView(MethodView):
         return long_url
 
 
-class URLShortView(BaseURLView):
+class URLShortView(BaseURLLogic, MethodView):
     def get(self, short_url):
         long_url = super().get(short_url)
         return jsonify(URLLongSchema().dump(long_url)), 200
 
 
-class URLRedirectView(BaseURLView):
+class URLRedirectView(BaseURLLogic, MethodView):
     def get(self, short_url):
-        long_url = super().get(short_url)
-        return redirect(URLLongSchema().dump(long_url).get("long_url")), 301
+        url = super().get(short_url)
+        return redirect(url.long_url), 301
