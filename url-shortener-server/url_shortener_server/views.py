@@ -12,7 +12,8 @@ class URLLongView(MethodView):
 
 
 class BaseURLLogic:
-    def get(self, short_url):
+    @staticmethod
+    def get_short_url(short_url):
         long_url = URL.get_by_short_url(short_url=short_url)
         if not long_url:
             abort(
@@ -24,11 +25,11 @@ class BaseURLLogic:
 
 class URLShortView(BaseURLLogic, MethodView):
     def get(self, short_url):
-        long_url = super().get(short_url)
+        long_url = self.get_short_url(short_url)
         return jsonify(URLLongSchema().dump(long_url)), 200
 
 
 class URLRedirectView(BaseURLLogic, MethodView):
     def get(self, short_url):
-        url = super().get(short_url)
+        url = self.get_short_url(short_url)
         return redirect(url.long_url), 301
