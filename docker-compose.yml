@@ -1,0 +1,11 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    container_name: url-shortener
+    ports:
+      - "$URL_SHORTENER_DB_PORT:5432"
+    environment:
+      POSTGRES_USER: $URL_SHORTENER_DB_USER
+      POSTGRES_PASSWORD: $URL_SHORTENER_DB_PASSWORD
+      POSTGRES_DB: $URL_SHORTENER_DB_NAME
